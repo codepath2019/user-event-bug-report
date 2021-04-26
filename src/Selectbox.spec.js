@@ -25,7 +25,7 @@ describe('Selectbox', () => {
   })
 
   it('can be clicked', () => {
-    userEvent.click(screen.getByText(menuItems[0].labelText))
+    userEvent.click(screen.getByLabelText(menuItems[0].labelText))
     expect(mockOnClick).toHaveBeenCalledTimes(1)
   })
 })
