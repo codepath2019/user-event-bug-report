@@ -28,7 +28,7 @@ function setup(params = {}) {
 };
 
 describe('SimpleTextarea', () => {
-  it.only('does not change the cursor position while user is typing', () => {
+  it('changes cursor position while user is typing correctly', () => {
     const placeholder = 'Write a comment...';
     setup({ placeholder })
     const commentInput = screen.getByPlaceholderText(placeholder)
@@ -40,5 +40,31 @@ describe('SimpleTextarea', () => {
     userEvent.keyboard('b')
     expect(commentInput).toHaveDisplayValue('abcd')
     expect(commentInput.selectionStart).toBe(2)
+  })
+
+  it('changes the cursor position when using keyboard arrowleft', () => {
+    const placeholder = 'Write a comment...';
+    setup({ placeholder })
+    const commentInput = screen.getByPlaceholderText(placeholder)
+    expect(commentInput.selectionStart).toBe(0)
+    userEvent.type(commentInput, 'acd')
+    expect(commentInput.selectionStart).toBe(3)
+    userEvent.keyboard("{arrowleft}")
+    expect(commentInput.selectionStart).toBe(2)
+    userEvent.keyboard("{arrowleft}")
+    expect(commentInput.selectionStart).toBe(1)
+  })
+
+  it('changes the cursor position when using type arrowleft', () => {
+    const placeholder = 'Write a comment...';
+    setup({ placeholder })
+    const commentInput = screen.getByPlaceholderText(placeholder)
+    expect(commentInput.selectionStart).toBe(0)
+    userEvent.type(commentInput, 'acd')
+    expect(commentInput.selectionStart).toBe(3)
+    userEvent.type(commentInput, "{arrowleft}")
+    expect(commentInput.selectionStart).toBe(2)
+    userEvent.type(commentInput, "{arrowleft}")
+    expect(commentInput.selectionStart).toBe(1)
   })
 })
